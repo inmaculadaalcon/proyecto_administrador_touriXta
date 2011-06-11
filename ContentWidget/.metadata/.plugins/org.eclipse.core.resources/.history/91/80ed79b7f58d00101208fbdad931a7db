@@ -1,0 +1,49 @@
+package com.widget;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+
+public class DatosSQLiteHelper extends SQLiteOpenHelper
+{
+	public static String DatosTable = "Datos";
+	public static String colNombre = "nombre";
+	static String coltipo = "tipo";
+	static String colDesc_breve = "desc_breve";
+	static String colDesc = "descripcion";
+	static String colCodigo = "codigo";
+	static String nombre = "DBDatos";
+	static String viewDatos = "ViewDatos";
+	
+	
+	//Sentencia SQL para crear la tabla datos
+	String sqlCreateDatos = "CREATE TABLE Datos(codigo INTEGER PRIMARY KEY AUTOINCREMENT, tipo TEXT, nombre TEXT, desc_breve TEXT,descripcion TEXT)";
+	public DatosSQLiteHelper(Context context) 
+	{
+		super(context,nombre,null,1);
+		
+	}
+	public void onCreate(SQLiteDatabase db)
+	{
+		
+		db.execSQL(sqlCreateDatos);
+	}
+	public void onUpgrade(SQLiteDatabase db, int versionAnterior,int versionNueva)
+	{
+		db.execSQL("DROP TABLE IF EXISTS Datos");
+		db.execSQL(sqlCreateDatos);
+		
+	}
+	public Cursor getDatoByID(String ID)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(DatosTable, new String[]{colCodigo,coltipo,colNombre,colDesc_breve,colDesc}, colCodigo+"=?", new String[]{ID}, null, null, null);
+		return cursor;
+	}
+	public void insertaDato(SQLiteDatabase db,String tipo,String nombre,String desc_breve,String desc)
+	{
+		db.execSQL("INSERT INTO Datos(codigo,tipo,nombre,desc_breve,descripcion) VALUES((SELECT MAX(codigo) FROM Datos)+1,'"+tipo+"','"+nombre+"','"+desc_breve+"','"+desc+"');");
+	}
+}

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation ="vertical">
+   
+  <TextView android:layout_width="fill_parent"
+  			android:layout_height="wrap_content"
+  			android:text ="Introducción de datos"
+  			
+  		/>
+  <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:text="Tipo de Edificio"
+         />
+	  	<Spinner
+	  		android:id="@+id/spinner_edificio"
+	  		android:layout_width="fill_parent"
+	  		android:layout_height="wrap_content"
+	  		android:prompt="@string/tipo_prompt"
+	  		/>
+  		<TextView 
+  		android:id="@+id/id_nombre_edificio"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:text="@string/nombre_edificio"
+  />	
+  <EditText android:id = "@+id/id_nom_edificio"
+  			android:layout_width="fill_parent"
+  			android:layout_height="wrap_content"
+  			
+  			/>
+  <TextView 
+  		android:id="@+id/id_desc_breve_text"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:text="@string/desc_breve"
+  		
+  />	
+  <EditText android:id = "@+id/id_desc_breve"
+  			android:layout_width="fill_parent"
+  			android:layout_height="wrap_content"
+  			
+  			/>
+    <TextView 
+  		android:id="@+id/id_descripcion_text"
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:text="@string/descripcion"
+  	
+  />	
+  <EditText android:id = "@+id/id_descripcion"
+  			android:layout_width="fill_parent"
+  			android:layout_height="wrap_content"
+  			/>
+	<Button android:id="@+id/id_button_guardar_datos"
+			android:layout_width="200px"
+			android:gravity="center_vertical|center_horizontal"
+			android:layout_height="wrap_content"
+			android:text = "Guardar"
+			android:layout_marginTop="20px"
+			android:layout_gravity="center_vertical|center_horizontal"/>
+	<Button android:id="@+id/id_Cancelar"
+			android:layout_width="200px"
+			android:gravity="center_vertical|center_horizontal"
+			android:layout_height="wrap_content"
+			android:text = "Cancelar"
+			android:layout_marginTop="20px"
+			android:layout_gravity="center_vertical|center_horizontal"/>
+	<Button android:id="@+id/abre"
+			android:layout_width="200px"
+			android:gravity="center_vertical|center_horizontal"
+			android:layout_height="wrap_content"
+			android:text="Abre"
+			android:layout_marginTop="20px"
+			android:layout_gravity="center_vertical|center_horizontal"/>
+ </LinearLayout>

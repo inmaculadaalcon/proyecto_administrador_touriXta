@@ -1,0 +1,180 @@
+package com.widget;
+
+import java.util.ArrayList;
+
+import com.widget.providers.DatosSQLiteHelper;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class widget extends Activity {
+    /** Called when the activity is first created. */
+	private Button Guardar;
+	private Button Cancelar;
+	private Button Abrir;
+	private Spinner tipo_edificios;
+	private EditText nom_edificio;
+	private EditText desc_breve;
+	private EditText descripcion;
+	private int vecesSeleccionadoTipo = 0;
+	private String tipo;
+	private String nombre_edificio;
+	private String descripcion_breve;
+	private  String description;
+	AlertDialog.Builder builder ;
+	public Context context;
+    public void onCreate(Bundle savedInstanceState) 
+    {
+    	super.onCreate(savedInstanceState);
+        setContentView(R.layout.lee_datos);
+//        /*Prueba de ContentProvider*/
+//        Uri empsUri = Uri.parse("content://employees");
+////        Cursor cursor = getContentResolver()..query(empsUri, null,null,null,null);
+//        //Cursor cursor = getContentResolver().query(empsUri, null,null,null,null);
+//        Uri empUri = Uri.parse("content://employees//5");
+//        Uri empDeptUri = Uri.parse("content://employees/Sales");
+//        /*Insertamos los empleados*/
+//        ContentValues cvs = new ContentValues(); 
+//        cvs.put("EmployeeName","Mark Anderson");
+//        cvs.put("Age",35);
+//        cvs.put("Dept",1);
+//        Uri newEmp = getContentResolver().insert(empsUri,cvs);
+//        
+//        /*Update un empleado*/
+//        Uri empUri2 = Uri.parse("content://employees/2");
+//        Cursor cursor2 = getContentResolver().query(empUri2, null,null,null,null);
+////        TextView txt;
+////		txt.setText(String.valueOf(cursor.getCount()));
+//        
+//		ContentValues cvs2 = new ContentValues();
+//		cvs2.put("EmployeeName", "Mina Samy Mod");
+//		cvs.put("Age",35);
+//		cvs.put("Dept",1);
+//		//Números de filas modificadas
+//        int rowsNumber = getContentResolver().update(empUri2,cvs,"EmployeeID=?",new String[]{"8"});
+//        
+//        /*Actualizar todos los empleados a un departamento*/
+//        
+//		/*Aquí la base de datos la ponemos en marcha*/
+//  
+	    final DatosSQLiteHelper usdbh = new DatosSQLiteHelper(this);
+	    final SQLiteDatabase db = usdbh.getWritableDatabase();
+        
+        
+        /*Lo widget que aparecen en el formulario*/
+ 	   Guardar = (Button)findViewById(R.id.id_button_guardar_datos);
+ 	   Cancelar = (Button)findViewById(R.id.id_Cancelar);
+ 	   Abrir =(Button)findViewById(R.id.abre);
+ 	   tipo_edificios = (Spinner)findViewById(R.id.spinner_edificio);
+ 	   nom_edificio = (EditText)findViewById(R.id.id_nom_edificio);
+ 	   desc_breve = (EditText)findViewById(R.id.id_desc_breve);
+ 	   descripcion = (EditText)findViewById(R.id.id_descripcion);
+ 	
+ 	   /*Rellenamos el Spinner*/
+ 	   ArrayAdapter<CharSequence> aa = ArrayAdapter.createFromResource(this,R.array.tipos,android.R.layout.simple_spinner_item);
+ 	   aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+ 	   tipo_edificios.setAdapter(aa);
+ 	   
+ 	   /*Cogemos los datos que tenemos en el formulario*/
+ 	   tipo_edificios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+		public void onItemSelected(AdapterView<?> parent, View v, int position,long id) 
+		{
+		 tipo = parent.getItemAtPosition(position).toString();
+		}
+
+		public void onNothingSelected(AdapterView<?> arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+ 		   
+ 	   });
+ 	   Abrir.setOnClickListener(new OnClickListener()
+ 	   {
+
+		public void onClick(View v) 
+		{
+			Uri allTitles = Uri.parse("content://com.content_provider.Datos");
+	        Cursor c = usdbh.getDatoByID("1");
+	      // int nameCol = c.getColumnIndex(DatosSQLiteHelper.colNombre);
+	        String nombre;
+	        if(c.moveToFirst())
+	        {
+	        	do
+	        	{
+	        	//	nombre = c.getString(nameCol);
+	        		
+	        			Toast.makeText(getBaseContext(), c.getString(c.getColumnIndex("nombre")), Toast.LENGTH_LONG).show();
+	        	//	Toast.makeText(this, c.getString(c.getColumnIndex(DatosSQLiteHelper.nombre)), Toast.LENGTH_LONG).show();
+	        	}while(c.moveToNext());
+	        }
+		//	Toast.makeText(getBaseContext(), "nombre", Toast.LENGTH_LONG).show();
+//			Intent intent = new Intent(widget.this,muestra.class);
+//			startActivity(intent);
+		}
+	});
+ 	   	  Guardar.setOnClickListener(new OnClickListener()
+ 	  {
+ 	   
+		public void onClick(View v) 
+		{      tipo = tipo.toString().trim();
+	 		   nombre_edificio = nom_edificio.getText().toString();
+	 	  	   descripcion_breve = desc_breve.getText().toString();
+	 	  	   description = descripcion.getText().toString();
+	 	  
+			if(db != null)
+	 	 	   {
+				usdbh.insertaDato(db, tipo, nombre_edificio, descripcion_breve, description);
+//	 	 		db.execSQL("INSERT INTO Datos(codigo,tipo,nombre,desc_breve,descripcion) VALUES((SELECT MAX(codigo) FROM Datos)+1,'"+tipo+"','"+nombre_edificio+"','"+descripcion_breve+"','"+description+"');");
+	 	 	   }
+				db.close();
+				finish();
+		}
+ 	  });
+ 	   	Cancelar.setOnClickListener(new OnClickListener()
+        {
+        	public void onClick(View v)
+        	{
+        	 AlertDialog.Builder builder = new AlertDialog.Builder(context);       	   	  
+       	   	  builder.setMessage("¿Estás seguro de que quieres salir?");	
+       	   	 
+       	   	  builder.setCancelable(false)
+       	   	  .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+       	   		  public void onClick(DialogInterface dialog, int id) {
+       	   			  finish();
+       	   		  }
+       	   	  })
+       	   	  .setNegativeButton("No", new DialogInterface.OnClickListener() {
+       	   		  public void onClick(DialogInterface dialog, int id) {
+       	   			  dialog.cancel();
+       	   		  }
+       	   	  });
+       	   	  builder.create();
+       	   	  builder.show();
+        	}
+        });
+          
+ 	   		  
+ 	   	  }
+    }
+        

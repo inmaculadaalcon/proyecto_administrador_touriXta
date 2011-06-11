@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, widget!</string>
+    <string name="app_name">widget_content</string>
+    <string name ="save_button">Guardar</string>
+	<string name ="selecciona_Tipo">Selecciona tipo de edificio: </string>
+	<string name ="tipo_prompt">Escoge un tipo</string>
+	<string name="nombre_edificio">Nombre Edificio</string>
+	<string name="desc_breve">Descripción Breve</string>
+	<string name="descripcion">Descripción</string>
+</resources>

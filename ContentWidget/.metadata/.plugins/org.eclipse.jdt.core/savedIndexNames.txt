@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/home/inma/Escritorio/ContentWidget/.metadata/.plugins/org.eclipse.jdt.core
+3886794899.index
+436549083.index
+3284187716.index
